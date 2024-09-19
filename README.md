@@ -83,7 +83,7 @@ To run tests, build and run application, as in the previous step and run the com
 $ docker-compose exec web python manage.py migrate
 ```
 
-## 📚 Documentação
+## 📚 Documentation
 To generate swagger json, you need only acess the following endpoint
 
 ```sh

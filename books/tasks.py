@@ -9,7 +9,7 @@ from books.models import Book,AuthorBook
 def import_books(self):
     FILE_PATH="/code/.ignore/assets/books.json/books.json"
     CHUNKSIZE=500
-    MAX_CHUNKS=100
+    MAX_CHUNKS=10
     i=0
     chunks = pd.read_json(FILE_PATH, lines=True, chunksize = CHUNKSIZE)
     for chunk in chunks:

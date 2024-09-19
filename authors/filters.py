@@ -5,8 +5,8 @@ from authors.models import Author
 
 
 class AuthorFilter(filters.FilterSet):
-    name = filters.CharFilter(lookup_expr='icontains')
-    search = filters.CharFilter(method='filter_search',name='search')
+    name = filters.CharFilter(lookup_expr='icontains',field_name="name")
+    search = filters.CharFilter(method='filter_search')
     
     def filter_search(self, queryset, name, value):
         return queryset.filter(
@@ -16,4 +16,4 @@ class AuthorFilter(filters.FilterSet):
 
     class Meta:
         model = Author
-        fields = ['name', 'query']
+        fields = ['name', 'search']

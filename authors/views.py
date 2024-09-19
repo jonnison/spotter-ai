@@ -6,7 +6,7 @@ from authors.models import Author
 from authors.filters import AuthorFilter
 from authors.serializers import AuthorSerializer
 
-class AuthorList(ModelViewSet):
+class AuthorViewSet(ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     filter_backends = (filters.DjangoFilterBackend,)

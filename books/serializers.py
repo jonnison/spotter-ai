@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from books.models import Book, AuthorBook
-from authors.models import Author
+from recommendation.tasks import calculate_similarity
+
 
 
 class AuthorBookSerializer(serializers.ModelSerializer):
@@ -17,7 +18,12 @@ class BookSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at', 'updated_at']
 
     def create(self, validated_data):
+
         authors_data = validated_data.pop('authors')
         book = Book.objects.create(**validated_data)
-        AuthorBook.objects.bulk_create(authors_data,book=book)
+        for item in authors_data:
+            item["book"]=book
+            
+        AuthorBook.objects.bulk_create([AuthorBook(**item) for item in authors_data])
+        calculate_similarity.delay()
         return book

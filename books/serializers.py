@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from books.models import Book, AuthorBook
+from authors.serializers import AuthorSerializer
 from recommendation.tasks import calculate_similarity
 
 
@@ -11,7 +12,7 @@ class AuthorBookSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at', 'updated_at','book']
 
 class BookSerializer(serializers.ModelSerializer):
-    authors = AuthorBookSerializer(many=True)
+    authors = AuthorSerializer(many=True)
     class Meta:
         model = Book
         fields = '__all__'

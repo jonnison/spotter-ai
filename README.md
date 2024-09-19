@@ -92,3 +92,8 @@ $ curl http://localhost:8000/api/v1/schema
 
 ER Diagram Used:
 ![ER Diagram ](er_diagram.png)
+
+Loom Videos:
+[ER Diagram and project Struture](https://www.loom.com/share/d8be91f0fe31435581b69193ff753dfc?sid=aeff40e7-4007-4a58-9bd0-f3131836cacb)
+[Code Struture](https://www.loom.com/share/aeec83eee6f14b7bb702aca1899c49e9?sid=3b6b6ddb-dc72-4e66-92b9-f7c5ccfcaac3)
+[Making some requests](https://www.loom.com/share/439e5f7b00374c269ea055e15e10fc2a?sid=21096394-6cc2-455b-9569-c83ba0290e58)

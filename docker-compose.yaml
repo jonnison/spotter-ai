@@ -4,9 +4,14 @@ services:
     volumes:
       - ./.ignore/data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=spotter
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -18,3 +23,15 @@ services:
       - .env
     depends_on:
       - db
+      - redis
+  
+  celery:
+    build: .
+    command: ["celery", "-A", "settings", "worker", "--loglevel=info"]
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis

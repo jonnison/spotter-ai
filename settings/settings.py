@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z=_we66&c0^c1i#xcos&)nee%t3o*oub+%2tv#+0n&m-yj8rr#'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG",cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -81,10 +83,14 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": {
+        "ENGINE": "django.db.backends.{}".format(config("DATABASE_ENGINE", "sqlite3")),
+        "NAME": config("DATABASE_NAME", BASE_DIR / "db.sqlite3"),
+        "USER": config("DATABASE_USERNAME", None),
+        "PASSWORD": config("DATABASE_PASSWORD", None),
+        "HOST": config("DATABASE_HOST", None),
+        "PORT": config("DATABASE_PORT", None),
+    },
 }
 
 
@@ -140,3 +146,18 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "SPOTTER.AI API",
+    "DESCRIPTION": "SPOTTER.AI API BACKEND",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
+# Celery Settings
+CELERY_BROKER_URL =   config("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = config("CELERY_BROKER_RESULT")  # or your result backend
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'  # or your timezone
